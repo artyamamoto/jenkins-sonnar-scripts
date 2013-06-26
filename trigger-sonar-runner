@@ -2,7 +2,7 @@
 
 export SONAR_RESULT_HOME=/usr/share/sonar-results
 
-if [ -n "$SONAR_RUNNER_HOME" ] ; then
+if [ "x$SONAR_RUNNER_HOME" = "x" ] ; then
 	export SONAR_RUNNER_HOME=$(find /usr/share/ -maxdepth 1 -type d -name "sonar-runner-*" | head -n 1)
 	# export SONAR_RUNNER_HOME=/usr/share/sonar-runner-2.2.1
 fi

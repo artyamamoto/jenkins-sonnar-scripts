@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASEDIR=$(dirname "$0")
-SONAR_RESULT_HOME=/usr/share/sonar-result
+SONAR_RESULT_HOME=/usr/share/sonar-results
 
 if [ "root" != `whoami` ] ; then
 	echo "root user is required."

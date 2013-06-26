@@ -49,7 +49,7 @@ class Script {
 	function checkViolations() {
 		echo "#=== pmd.xml ===========================\n";
 	
-		if (! $pmd = $this->_findResultFile("pmd")) {
+		if (! $pmd = $this->_findResultFile("phpmd")) {
 			die("failed to find pmd.xml in ".$_SERVER["WORKSPACE"]);
 		}	
 		if (! ($pmd_xml = simplexml_load_file($pmd)))

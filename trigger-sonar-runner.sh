@@ -1,0 +1,25 @@
+#!/bin/bash
+
+export SONAR_RESULT_HOME=/usr/share/sonar-results
+
+if [ -n "$SONAR_RUNNER_HOME" ] ; then
+	export SONAR_RUNNER_HOME=$(find /usr/share/ -maxdepth 1 -type d -name "sonar-runner-*" | head -n 1)
+	# export SONAR_RUNNER_HOME=/usr/share/sonar-runner-2.2.1
+fi
+if ! echo $PATH | grep -q "$SONAR_RUNNER_HOME" ; then
+	export PATH="$PATH:$SONAR_RUNNER_HOME/bin"
+fi
+
+if [ -n "$WORKSPACE" ]; then
+	if [ -d "$WORKSPACE" ]; then
+		SONAR_PROP="$WORKSPACE/sonar-project.properties"
+		if [ -f "$SONAR_PROP" ]; then 
+			export LANG=ja_JP.UTF-8
+			pushd "$WORKSPACE" && sonar-runner
+			php "$SONAR_RESULT_HOME/sonar-result.php"
+		fi
+	fi
+fi
+
+exit 0
+

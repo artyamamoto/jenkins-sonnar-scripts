@@ -63,10 +63,10 @@ class Script {
 		echo "$pmd\n";
 		printf("pmd violation: %d\n", $violation);
 	}
-	function _findResultFile() {
+	function _findResultFile($type) {
 		$list = array(
-			sprintf('%s/.sonar/build/logs/%s.xml', $_SERVER["WORKSPACE"]), 
-			sprintf('%s/.sonar/%s.xml', $_SERVER["WORKSPACE"]), 	
+			sprintf('%s/.sonar/build/logs/%s.xml', $_SERVER["WORKSPACE"],$type), 
+			sprintf('%s/.sonar/%s.xml', $_SERVER["WORKSPACE"],$type), 	
 		);
 		foreach($list as $path) {
 			if (is_file($path))

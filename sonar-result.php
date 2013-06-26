@@ -17,9 +17,9 @@ class Script {
 	function checkUnitTests() {
 		echo "#=== phpunit.xml =======================\n";
 		
-		$punit = sprintf('%s/.sonar/build/logs/phpunit.xml', $_SERVER["WORKSPACE"]);	
-		if (!is_file($punit))
-			die("$punit not found. \n");
+		if (! $punit = $this->_findResultFile("phpunit")) {
+			die("failed to find pmd.xml in ".$_SERVER["WORKSPACE"]);
+		}	
 		if (!($punit = simplexml_load_file($punit)) )
 			die("failed to parse xml: $punit\n");
 		
@@ -48,11 +48,10 @@ class Script {
 	}
 	function checkViolations() {
 		echo "#=== pmd.xml ===========================\n";
-		
-		$pmd = sprintf('%s/.sonar/build/logs/pmd.xml', $_SERVER["WORKSPACE"]);
-		
-		if (! is_file($pmd)) 
-			die("$pmd not found.\n");
+	
+		if (! $pmd = $this->_findResultFile("pmd")) {
+			die("failed to find pmd.xml in ".$_SERVER["WORKSPACE"]);
+		}	
 		if (! ($pmd_xml = simplexml_load_file($pmd)))
 			die("failed to parse xml: $pmd\n");
 		
@@ -63,6 +62,17 @@ class Script {
 		}
 		echo "$pmd\n";
 		printf("pmd violation: %d\n", $violation);
+	}
+	function _findResultFile() {
+		$list = array(
+			sprintf('%s/.sonar/build/logs/%s.xml', $_SERVER["WORKSPACE"]), 
+			sprintf('%s/.sonar/%s.xml', $_SERVER["WORKSPACE"]), 	
+		);
+		foreach($list as $path) {
+			if (is_file($path))
+				return $path;
+		}
+		return null;
 	}
 }
 
